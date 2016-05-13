@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Linker云盘</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Linker云盘，简单，便捷，安全。无需登录、注册，快速转存您的文件。让U盘病毒从此成为历史。端对端的加密模式，为您的隐私保驾护航。基于HTML5最新标准，响应式设计，跨平台的Linker，给您放弃物理盘的理由。">
+    <meta name="keywords" content="Linker 云盘">
+    <meta name="author" content="lightning-zgc">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!-- 预留ICON接口 -->
+    <link rel="icon" type="image/png" href="./assets/i/logo.jpg">
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+    <p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Linker暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>以获得更好的体验！</p>
+    <![endif]-->
+    <input id="file-input" type="file" multiple />
+    
+
+
+
+    <script type="text/javascript">
+        var startingByte = 0;
+        var endindByte = 10000;
+        var inputElement = document.getElementById("file-input");
+        inputElement.addEventListener("change", handleFiles, false);
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            console.log('loaded');
+            upload();
+        };
+        var blob;
+        var file;
+
+        function handleFiles() {
+            var fileList = inputElement.files;
+            console.log(fileList);
+            file = fileList[0];
+            if (file.slice) {
+                blob = file.slice(startingByte, endindByte);
+            } else if (fileList.mozSlice) {
+                blob = file.mozSlice(startingByte, endindByte);
+            }
+            reader.readAsBinaryString(blob);
+        }
+
+        function upload() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("POST", "upload.php", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send("start=" + startingByte / 10000 + "&file=" + btoa(escape(reader.result)));
+            console.log(btoa(escape(reader.result)));
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    console.log(xmlhttp.responseText);
+                }
+            }
+            if (endindByte == file.size) {
+                startingByte = 0;
+                endindByte = 10000;
+                alert("com");
+            } else if (endindByte + 10000 >= file.size) {
+                startingByte += 10000;
+                endindByte = file.size;
+                handleFiles();
+            } else {
+                startingByte += 10000;
+                endindByte += 10000;
+                handleFiles();
+            }
+            console.log(startingByte);
+            console.log(endindByte);
+        }
+    </script>
+</body>
+
+</html>
