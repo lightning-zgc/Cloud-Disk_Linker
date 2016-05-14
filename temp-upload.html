@@ -75,7 +75,7 @@
     <div class="showpad">
         <div class="continer">
             <button id="fileSelect" type="button" name="button" class="left">选择文件</button>
-            <button type="button" name="button" class="right">上传</button>
+            <button type="button" name="button" class="right" onclick="handleFiles(fileList)">上传</button>
         </div>
         <div class="drop" id="dropbox">
             <div class="continer">
@@ -85,7 +85,7 @@
                 <div class="progess">
 
                 </div>
-                <p>
+                <p id="name">
                     文件名
                 </p>
                 <button type="button" name="button" class="left-x">X</button>
@@ -104,10 +104,13 @@
     </footer>
 
     <script type="text/javascript">
+        var long = 50000;
         var startingByte = 0;
-        var endindByte = 10000;
+        var endindByte = long;
+
+        var xcode = 1;
         var inputElement = document.getElementById("file-input");
-        inputElement.addEventListener("change", handleFiles, false);
+        inputElement.addEventListener("change", showname, false);
         var reader = new FileReader();
         reader.onloadend = function() {
             console.log('loaded');
@@ -122,7 +125,8 @@
         fileSelect.addEventListener("click", function(e) {
             if (fileElem) {
                 startingByte = 0;
-                endindByte = 10000;
+                xcode = 1;
+                endindByte = long;
                 fileElem.click();
             }
             e.preventDefault(); // 阻止重定向
@@ -153,8 +157,14 @@
             var files = dt.files;
 
             startingByte = 0;
-            endindByte = 10000;
+            xcode = 1;
+            endindByte = long;
             handleFiles(files);
+        }
+
+        function showname() {
+          fileList = inputElement.files;
+          document.getElementById("name").innerHTML=fileList[0].name;
         }
 
         function handleFiles(e) {
@@ -176,23 +186,34 @@
 
         function upload() {
             var updata = btoa(escape(reader.result));
+            var start = startingByte / long;
+            var percent = file.size/long;
             lpost("upload.php", "md5=" + md5(updata), function(e) {
                 e = JSON.parse(e);
                 if (e.code == 2) {
                     console.log("已经添加");
+                    document.getElementById("name").innerHTML=(xcode++) / percent;
+                    if(xcode / percent >= 1){
+                          alert("com");
+                      }
                 } else {
-                    lpost("upload.php", "start=" + startingByte / 10000 + "&file=" + updata, function() {});
+                    lpost("upload.php", "start=" + start + "&file=" + updata, function() {
+                      document.getElementById("name").innerHTML=(xcode++) / percent;
+                      if(xcode / percent >= 1){
+                          alert("com");
+                      }
+                    });
                 }
             });
             if (endindByte == file.size) {
-                alert("com");
-            } else if (endindByte + 10000 >= file.size) {
-                startingByte += 10000;
+
+            } else if (endindByte + long >= file.size) {
+                startingByte += long;
                 endindByte = file.size;
                 handleFiles(fileList);
             } else {
-                startingByte += 10000;
-                endindByte += 10000;
+                startingByte += long;
+                endindByte += long;
                 handleFiles(fileList);
             }
             console.log(startingByte);
