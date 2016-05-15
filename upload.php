@@ -33,5 +33,5 @@ if($is){
       echo json_encode(array('code' => '1', 'msg' => 'Success'));
     }
 }
-sqlc(link);
+sqlc($link);
 ?>

@@ -3,7 +3,9 @@ $approot=$approot?$approot:'.';
 header("content-Type: text/html; charset=UTF-8");
 date_default_timezone_set('Asia/Shanghai');      //这里设置了时区
 ini_set("session.cookie_httponly",1);
-ini_set("display_errors",0);
+ini_set("display_errors",1);
+set_time_limit(1800);
+
 
 function sqls(){
 $link = mysql_connect('localhost', 'root', '') or die('Could not connect: ' . mysql_error());
