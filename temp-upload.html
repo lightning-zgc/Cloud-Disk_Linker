@@ -74,7 +74,7 @@
 
     <div class="round">
         <span class="mid">上传</span> |
-        <span class="mid"><a href="download.php" target="_blank">下载</a></span>
+        <span class="mid"><a href="javascript:download()">下载</a></span>
     </div>
 
     <div class="showpad">
@@ -112,6 +112,7 @@
         var long = 50000;
         var startingByte = 0;
         var endindByte = long;
+        var down = 0;
 
         var xcode = 1;
         var inputElement = document.getElementById("file-input");
@@ -168,8 +169,8 @@
         }
 
         function showname() {
-          fileList = inputElement.files;
-          document.getElementById("name").innerHTML=fileList[0].name;
+            fileList = inputElement.files;
+            document.getElementById("name").innerHTML = fileList[0].name;
         }
 
         function handleFiles(e) {
@@ -190,23 +191,30 @@
         }
 
         function upload() {
-            var updata = btoa(escape(reader.result));
+            // var updata = btoa(escape(reader.result));
+            var percent = Math.ceil(file.size / long);
+            var updata = blob;
+            var md5r = md5(reader.result);
+            var formData = new FormData();
+            formData.append("md5", md5r);
+            formData.append("file", updata, "file");
             var start = startingByte / long;
-            var percent = file.size/long;
-            lpost("upload.php", "md5=" + md5(updata), function(e) {
+            lpost("upload.php", "md5=" + md5r, 'plain', function(e) {
                 e = JSON.parse(e);
                 if (e.code == 2) {
                     // console.log("已经添加");
-                    document.getElementById("name").innerHTML=(xcode++) / percent;
-                    if(xcode / percent >= 1){
-                          alert("com");
-                      }
+                    document.getElementById("name").innerHTML = (xcode++) / percent;
+                    if ((xcode - 1) / percent >= 1) {
+                        // alert("com");
+                        console.log("com");
+                    }
                 } else {
-                    lpost("upload.php", "start=" + start + "&file=" + updata, function() {
-                      document.getElementById("name").innerHTML=(xcode++) / percent;
-                      if(xcode / percent >= 1){
-                          alert("com");
-                      }
+                    lpost("upload.php?start=" + start, formData, 'mix', function() {
+                        document.getElementById("name").innerHTML = (xcode++) / percent;
+                        if ((xcode - 1) / percent >= 1) {
+                            // alert("com");
+                            console.log("com");
+                        }
                     });
                 }
             });
@@ -225,10 +233,43 @@
             // console.log(endindByte);
         }
 
-        function lpost(url, send, success) {
+        function download() {
+            lpost("download.php", null, 'plain', function(e) {
+                if (e < 1) {
+                    if (e >= down) down = e;
+                    document.getElementById("name").innerHTML = down;
+                    download();
+                } else {
+                    if (e >= down) down = e;
+                    document.getElementById("name").innerHTML = down;
+                    // alert("com");
+                    window.open("./newfile.png");
+                }
+            });
+            // if (down < 1) {
+            //     download();
+            // } else {
+            //     window.open("./newfile.png");
+            // }
+        }
+
+        function updateProgress(e) {}
+
+        function lpost(url, send, type, success) {
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("POST", url, true);
-            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            switch (type) {
+                case "plain":
+                    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    break;
+                case "mix":
+                    // xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                    break;
+                default:
+                    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+            }
+            xmlhttp.upload.onprogress = updateProgress;
             xmlhttp.send(send);
             xmlhttp.onreadystatechange = function() {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {

@@ -16,21 +16,20 @@ $sql = "select count(*) from upload";
     $row = mysql_fetch_assoc($ret);
 		$count = $row['count(*)'];
 	}
-$sql = "select * from upload where download = 0 order by start limit 1";
+$sql = "select * from upload where download = 0 order by start";
 	$ret = mysql_query($sql, $link);
 	if ($ret === false) {
 		die("er");
 	} else {
     $row = mysql_fetch_assoc($ret);
 		if(!$row){
-			echo '2';
+			echo '完成';
 			fclose($myfile);
 			sqlc($link);
 			exit;
 		}
 		// fseek($myfile,$row['start']*50000);
-    // $echo = unescape(base64_decode($row['nr']));
-		$echo = $row['nr'];
+    $echo = unescape(base64_decode($row['nr']));
 		fwrite($myfile, $echo);
 
 		// echo file_put_contents("newfile.jpg",$echo,FILE_APPEND).'<br />';
