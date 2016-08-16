@@ -6,6 +6,48 @@ ini_set("session.cookie_httponly",1);
 ini_set("display_errors",1);
 set_time_limit(1800);
 
+function fileidqr($fileid)
+{
+  $link = sqls();
+  $sql = "select * from file_info where fileid='$fileid' order by id desc limit 1";
+$ret = mysql_query($sql, $link);
+if ($ret === false) {
+die("er");
+} else {
+$row = mysql_fetch_assoc($ret);
+}
+if ($row){
+  sqlc($link);
+return 1;
+}else {
+  sqlc($link);
+return 0;
+}
+}
+
+function getuser()
+{
+  if(isset($_COOKIE['bduss'])) {
+    $cookie = $_COOKIE['bduss'];
+    $link = sqls();
+    $sql = "select * from user_cookie where cookie='$cookie' order by id desc limit 1";
+$ret = mysql_query($sql, $link);
+if ($ret === false) {
+die("er");
+} else {
+$row = mysql_fetch_assoc($ret);
+}
+if ($row){
+  $user_public=$row['user'];
+  return $user_public;
+}else {
+  return 1;
+}
+sqlc($link);
+  }else {
+    return 0;
+  }
+}
 
 function sqls(){
 $link = mysql_connect('localhost', 'root', '') or die('Could not connect: ' . mysql_error());

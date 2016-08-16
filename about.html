@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>关于</title>
+	<link href="css/style.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="js/main.js"></script>
+</head>
+
+<body>
+	<div id="background"><img id="mybg" src="" width="1198" height="710" /></div>
+	<div id="topbar" onmouseover="bgbluron();" onmouseleave="bluroff();">
+		<div id="logo">
+			<a href="index.html"><img src="img/logo.png" /></a>
+		</div>
+		<div id="logotitle"><a href="about.html">关于云U盘</a></div>
+		<div id="login-button" onmouseover="showbox();" onmouseleave="closebox();">
+			<span class="login-text">登陆/注册</span>
+		</div>
+	</div>
+	<div id="login" onmouseover="showbox();bluron();" onmouseleave="closebox();bluroff();">
+		<form id="loginform" action="index.html" method="post">
+			<div id="login-box">
+				<table>
+					<tbody>
+						<tr>
+							<td>手机号：&nbsp;&nbsp;</td>
+							<td>
+								<input id="phone" type="text" />&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							<td>
+								<button type="button" id="checkget">获取验证码</button>
+							</td>
+						</tr>
+						<tr></tr>
+						<tr>
+							<td>验证码：&nbsp;&nbsp;</td>
+							<td>
+								<input id="check" type="text" />&nbsp;&nbsp;&nbsp;&nbsp;</td>
+							<td>
+								<button type="submit">确定</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+	<div id="content">
+		由于程序员太过懒惰，此处已被迷之省略。。。。。。
+		<center>
+			<a href="./">返回</a>
+		</center>
+	</div>
+</body>
+
+</html>

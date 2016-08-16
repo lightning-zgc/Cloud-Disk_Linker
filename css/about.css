@@ -1,0 +1,133 @@
+/*全局设置*/
+body { 
+    color: #323232; text-align:center; 
+    font-family:"微软雅黑",Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    margin: 0px auto 0px; padding: 0px;
+    background-attachment:fixed;
+    background-repeat:repeat;
+    background-size:cover;
+    word-break: break-all; 
+    word-wrap: break-word;
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+img {border:none;}
+a:link, a:active, a:visited {color:#886353; text-decoration:none;}
+a:hover {color:#886353; text-decoration: underline;}
+a {-webkit-transition:color 1s;-moz-transition:color 1s;-o-transition:color 1s;transition:color 1s;}
+.bluron {-webkit-filter: blur(3px);}
+.bluroff {-webkit-filter: blur(0px);}
+/*背景*/
+#background {
+    z-index: -5; 
+    position: fixed; 
+    width: 100%;     
+    margin-top: -60px;
+}
+#background img {
+    width: 100%;
+    filter: alpha(opacity:30);
+}
+/*顶栏*/
+#topbar {
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    background-color: #308FFF;
+    float: left;
+    z-index: 5;
+    margin-top: -60px;
+    -webkit-transition:background-color 1s;
+    -moz-transition:background-color 1s;
+    -o-transition:background-color 1s;
+    transition:background-color 1s;
+}
+div#topbar:hover {
+    background-color: rgba(48, 143, 255, 0.4);
+}
+#logo {
+    width: 200px;
+    height: 30px;
+    padding: 10px 0px 10px 30px;
+    position: fixed;
+    float: left;
+    text-align: left;
+}
+#logo img {
+    width: 140px;
+}
+#logotitle {
+    color: #FFF;
+    font-size: 14px;
+    float: left;
+    margin: 15px 0px 0px 170px;
+    display: none;
+}
+#login-button {
+    width: 296px;
+    height: 50px;
+    line-height: 45px;
+    text-align: center;
+    position: relative;
+    float: right;
+    -webkit-transition:background-color 1s;
+    -moz-transition:background-color 1s;
+    -o-transition:background-color 1s;
+    transition:background-color 1s;
+}
+div#login-button:hover {
+    background-color: rgba(48, 143, 255, 0.7);
+}
+#login-button .login-text {
+    color: #FFF;
+}
+#login {
+    width: 100%;
+    float: left;
+    z-index: 6;
+    position: fixed;
+}
+#login-box {
+    float: right;
+    z-index: 6;
+    position: relative;
+    margin: -10px 0px 0px 0px;
+    display: none;
+    text-align: left;
+    background-color: rgba(48, 143, 255, 0.4);
+    padding: 10px;
+    color: #fff;
+}
+input#phone {
+    width: 100px;
+    height: 17px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px;
+}
+input#check {
+    width: 50px;
+    height: 17px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px;
+}
+#login button {
+    background: rgba(255, 255, 255, 0.5);
+    border: 0px;
+    width: 80px;
+    height: 19px;
+    color: #fff;
+    text-align: center;
+}
+/*主体内容*/
+#content {
+    width: 72%;
+	max-width: 960px;
+    height: 500px;
+    background-color: rgba(255, 255, 255, 0.65);
+    margin: 60px auto 10px auto;
+    z-index: 1;
+	padding: 20px;
+}
